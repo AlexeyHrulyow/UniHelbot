@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Токены и секреты
+*.env
+.env
+config.py  # если храните токен тут
+secrets/
+credentials.json
+
+# Логи
+*.log
+
+# Операционные системы
+.DS_Store
+Thumbs.db

@@ -13,6 +13,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from handlers.commands import router as commands_router
 from handlers.callbacks import router as callbacks_router
+from handlers.receipts import router as receipts_router
 
 TOKEN = config.api_key
 
@@ -32,6 +33,7 @@ logger = logging.getLogger(__name__)
 dp = Dispatcher()
 dp.include_router(commands_router)
 dp.include_router(callbacks_router)
+dp.include_router(receipts_router)
 
 async def main():
     try:

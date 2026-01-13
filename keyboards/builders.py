@@ -29,3 +29,23 @@ def get_back_button():
     )
     builder.adjust(1)
     return builder.as_markup()
+
+
+def get_cancel_button():
+    builder = InlineKeyboardBuilder()
+    builder.add(
+        InlineKeyboardButton(text="Отмена", callback_data="cancel")
+    )
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def get_process_decision():
+    builder = InlineKeyboardBuilder()
+    builder.add(
+        InlineKeyboardButton(text="Сохранить", callback_data="save_receipt"),
+        InlineKeyboardButton(text="Редактировать", callback_data="edit_receipt"), #ещё не делал
+        InlineKeyboardButton(text="В главное меню", callback_data="menu")
+    )
+    builder.adjust(2)
+    return builder.as_markup()

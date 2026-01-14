@@ -1,9 +1,9 @@
 #commands.py
 
 from aiogram import Router, types
-from aiogram.filters import Command
-
+from aiogram.filters import Command, StateFilter
 from handlers.navigation_instance import nav_instance
+from handlers.states import ReceiptStates
 from keyboards import builders
 
 router = Router()
@@ -25,6 +25,6 @@ async def menu(message: types.Message):
     await message.answer(menu_text, reply_markup=keyboard)
     nav_instance.push(message.from_user.id, menu_text, keyboard)
 
-@router.message()
+@router.message(~StateFilter(ReceiptStates.waiting_photo, ReceiptStates.photo_processing))
 async def echo_handler(message: types.Message):
     await message.answer(f"Услышал тебя, дорогой: {message.text}")

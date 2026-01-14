@@ -1,8 +1,9 @@
 #receipts.py
 
 import os
-from aiogram import Router, types
-from aiogram.filters import ContentTypesFilter, StateFilter
+from aiogram import Router, types, F
+from aiogram.enums import ContentType
+from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
@@ -14,8 +15,8 @@ from keyboards import builders
 router = Router()
 
 @router.message(
-    ContentTypesFilter(content_types=[types.ContentType.PHOTO]),
-    StateFilter(ReceiptStates.waiting_photo)  # ✅ Фильтр по состоянию
+    F.content_type == ContentType.PHOTO,
+    StateFilter(ReceiptStates.waiting_photo)
 )
 async def handle_receipt_photo(message: types.Message, state: FSMContext):
     if message.photo:
@@ -26,7 +27,8 @@ async def handle_receipt_photo(message: types.Message, state: FSMContext):
         os.makedirs(RECEIPT_DIR, exist_ok=True)
 
         photo_path = os.path.join(RECEIPT_DIR, f'{message.message_id}.jpg')
-        await photo_file.download(photo_path)
+        await bot.download(photo_file, destination=photo_path)
+        await state.update_data(photo_path=photo_path)
 
         await message.answer(
             "Ваше фото сохранено, начинаю обработку",
@@ -34,12 +36,6 @@ async def handle_receipt_photo(message: types.Message, state: FSMContext):
         await state.set_state(ReceiptStates.photo_processing)
 
         await process_receipt(message, state) #Заглушка
-
-    else:
-        await message.edit_text(
-            "Фото не распознано, повторите попытку",
-            reply_markup=builders.get_cancel_button()
-        )
 
 
 async def process_receipt(message: types.Message, state: FSMContext):

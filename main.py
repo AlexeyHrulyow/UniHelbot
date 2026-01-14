@@ -31,9 +31,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 dp = Dispatcher()
+dp.include_router(receipts_router)
 dp.include_router(commands_router)
 dp.include_router(callbacks_router)
-dp.include_router(receipts_router)
 
 async def main():
     try:

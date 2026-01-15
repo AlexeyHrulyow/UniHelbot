@@ -1,11 +1,16 @@
+#file_utils.py
+
 import os
-import shutil
+import logging
 
+logger = logging.getLogger(__name__)
 
-def cleanup_temp_files(user_id: int, file_path: str = None):
-    if file_path and os.path.exists(file_path):
-        os.remove(file_path)
-
-    receipts_dir = "data/receipts"
-    if os.path.exists(receipts_dir):
-        pass
+def safe_remove_file(file_path: str) -> bool:
+    try:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            logger.info(f'Removed {file_path}')
+            return True
+    except Exception as e:
+        logger.error(f'Failed to remove {file_path}: {e}')
+    return False

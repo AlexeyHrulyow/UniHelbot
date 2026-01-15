@@ -5,7 +5,6 @@ from aiogram import Router, types, F
 from aiogram.enums import ContentType
 from aiogram.filters import StateFilter
 from aiogram.fsm.context import FSMContext
-from aiogram.types import ReplyKeyboardRemove
 
 from bot import bot
 from handlers.navigation_instance import nav_instance
